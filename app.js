@@ -4,14 +4,20 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const Gig = require("./models/Gig");
 const Sequelize = require("sequelize");
-
-// Database
-const db = require("./config/database");
+var hbs = require("hbs");
 
 const app = express();
 
 // Handlebars
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main",
+    helpers: hbs.registerHelper("log", function (something) {
+      console.log(something);
+    }),
+  })
+);
 app.set("view engine", "handlebars");
 
 // Body Parser

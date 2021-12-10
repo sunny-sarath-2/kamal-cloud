@@ -1,9 +1,10 @@
 <section id="gigs" class="container">
-    <h1>All Gigs</h1>
+  <h1>All Gigs</h1>
+  {{log gigs}}
+  {{#each gigs}}
 
-    {{#each gigs}}
-      <div class="gig">
-      <h3>{{title}}</h3>
+    <div class="gig">
+      <h3 class="ad">{{title}}</h3>
       <p>{{description}}</p>
       <ul>
         <li>Budget: {{budget}}</li>
@@ -13,8 +14,8 @@
         <small>Technologies Needed: <span>{{technologies}}</span></small>
       </div>
     </div>
-    {{else}}
-      <p>No gigs available</p>
-    {{/each}}
-    
-  </section>
+  {{else}}
+    <p>No gigs available</p>
+  {{/each}}
+
+</section>

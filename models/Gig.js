@@ -1,4 +1,5 @@
 const { Connection, Request } = require("tedious");
+fs = require("fs");
 
 const config = {
   authentication: {
@@ -57,20 +58,35 @@ exports.create_table = () =>
 
 exports.get_gigs = () =>
   new Promise((resolve, reject) => {
+    let data = [];
     db.connect();
     db.on("connect", (err) => {
       if (err) {
         console.error(err.message);
       } else {
-        const request = new Request(`SELECT * from gigs;`, (err, rowCount) => {
-          if (err) {
-            console.error(err.message);
-          } else {
-            console.log(`${rowCount} row(s) returned`);
+        const request = new Request(
+          `SELECT "title", "technologies", "description", "budget", "contact_email" from dbo.gigs;`,
+          (err, rowCount) => {
+            if (err) {
+              console.error(err.message);
+            } else {
+              console.log(`${rowCount} row(s) returned`);
+            }
           }
-        });
+        );
         request.on("row", (gigs) => {
-          resolve(gigs);
+          data.push({
+            title: gigs[0].value,
+            technologies: gigs[1].value,
+            description: gigs[2].value,
+            budget: gigs[3].value,
+            contact_email: gigs[4].value,
+          });
+          console.log("as", gigs);
+        });
+        request.on("doneInProc", () => {
+          console.log(data);
+          resolve(data);
         });
         db.execSql(request);
       }

@@ -11,7 +11,7 @@ const {
 router.get("/", async (req, res) => {
   try {
     let gigs = await get_gigs();
-    console.log(gigs);
+    // console.log(gigs);
     res.render("gigs", {
       gigs,
     });
