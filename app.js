@@ -1,33 +1,30 @@
-const express = require('express');
-const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
-const path = require('path');
+const express = require("express");
+const exphbs = require("express-handlebars");
+const bodyParser = require("body-parser");
+const path = require("path");
+const Gig = require("./models/Gig");
+const Sequelize = require("sequelize");
 
 // Database
-const db = require('./config/database');
-
-// Test DB
-db.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err))
+const db = require("./config/database");
 
 const app = express();
 
 // Handlebars
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Body Parser
 app.use(express.urlencoded({ extended: false }));
 
 // Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Index route
-app.get('/', (req, res) => res.render('index', { layout: 'landing' }));
+app.get("/", (req, res) => res.render("index", { layout: "landing" }));
 
 // Gig routes
-app.use('/gigs', require('./routes/gigs'));
+app.use("/gigs", require("./routes/gigs"));
 
 const PORT = process.env.PORT || 5000;
 
